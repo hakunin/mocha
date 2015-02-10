@@ -323,8 +323,13 @@ module Mocha
     #   x, y = object.expected_method
     #   x # => 1
     #   y # => 2
-    def returns(*values)
+    def returns(*values, &block)
       @return_values += ReturnValues.build(*values)
+      if block
+        @return_values += ReturnValues.build(
+          BlockReturnValue.new(*values)
+        )
+      end
       self
     end
 
@@ -558,7 +563,7 @@ module Mocha
     end
 
     # @private
-    def invoke
+    def invoke(arguments)
       @invocation_count += 1
       perform_side_effects()
       if block_given? then
@@ -566,7 +571,7 @@ module Mocha
           yield(*yield_parameters)
         end
       end
-      @return_values.next
+      @return_values.next(arguments)
     end
 
     # @private

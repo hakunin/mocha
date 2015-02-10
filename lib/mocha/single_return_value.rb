@@ -8,7 +8,7 @@ module Mocha
       @value = value
     end
 
-    def evaluate
+    def evaluate arguments
       @value
     end
 
