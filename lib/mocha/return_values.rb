@@ -1,4 +1,5 @@
 require 'mocha/single_return_value'
+require 'mocha/block_return_value'
 
 module Mocha
 
